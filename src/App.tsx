@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState('');
+  const [datetime, setDatetime] = useState('');
+  const [ description, setDescription] = useState('');
+
+  function handleSubmit(){
+    
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main>
+        <h1>
+          Rs 400<span>.00</span>
+        </h1>
+        <form onSubmit={handleSubmit}>
+          <div className="basic">
+            <input type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+
+            placeholder={"+200 TV"} />
+            <input type="datetime-local" 
+            value={datetime}
+            onChange={e => setDatetime(e.target.value)} />
+          </div>
+          <div className="description">
+            <input type="text" placeholder={"description"}
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            />
+          </div>
+          <button type="submit">Add new transaction</button>
+        </form>
+        <div className="transactions">
+
+          <div className="transaction">
+            <div className="left">
+              <div className="name">New TV</div>
+              <div className="description"> it was time for new tv</div>
+            </div>
+
+            <div className="right">
+              <div className="price red">- 500 rs</div>
+              <div className="datetime">2025-1-112</div>
+            </div>
+          </div>
+
+          <div className="transaction">
+            <div className="left">
+              <div className="name">Earned from gig</div>
+              <div className="description"> it was time for new tv</div>
+            </div>
+
+            <div className="right">
+              <div className="price green">+700 rs</div>
+              <div className="datetime">2025-1-112</div>
+            </div>
+          </div>
+
+          <div className="transaction">
+            <div className="left">
+              <div className="name">Spend</div>
+              <div className="description"> it was time for new tv</div>
+            </div>
+
+            <div className="right">
+              <div className="price red">-900 rs</div>
+              <div className="datetime">2025-1-112</div>
+            </div>
+          </div>
+
+            
+        </div>
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
