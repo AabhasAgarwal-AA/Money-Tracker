@@ -7,7 +7,16 @@ function App() {
   const [ description, setDescription] = useState('');
 
   function handleSubmit(){
-    
+    const url = "url";
+    fetch(url, init:{
+      method: 'POST',
+      headers: {'Content-type':'application/json'},
+      body: JSON.stringify(value: {name, description, datetime})
+    }).then(response=>{
+      response.json().then(() => {
+        console.log('result', json);
+      })
+    })
   }
 
   return (
