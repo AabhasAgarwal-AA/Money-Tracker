@@ -11,16 +11,21 @@ function App() {
   async function handleSubmit(event:any){
     event.preventDefault()
     const url = URL+'/api/v1/transaction';
-    console.log(url);
+    // console.log(url);
+    const price = name.split(" ").[0];
     const response = await axios.post(`${url}`, {
-      name:name,
+      price, price,
+      name:name.substring(price.length+1),
       description: description,
       datetime:datetime,
       
-      // body: JSON.stringify(value:{name, description, datetime})
     },{
       headers:{'Content-type':'application/json'}
     });
+
+    setName("");
+    setDatetime("");
+    setDescription("");
 
     const result = response.data.result;
     console.log(result);
