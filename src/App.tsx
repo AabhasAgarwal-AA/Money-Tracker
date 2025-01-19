@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { URL } from "./config"
 import axios from "axios";
@@ -7,14 +7,28 @@ function App() {
   const [name, setName] = useState('');
   const [datetime, setDatetime] = useState('');
   const [ description, setDescription] = useState('');
+  const [transactions, setTransactions] = useState([]);
+
+  async function fetchTransactions(){
+    const url = URL+'/api/v1/transactions'
+    const response = await axios.get(url);
+    return response;
+  }
+
+  useEffect(() => {
+    fetchTransactions().then(transactions => {
+      setTransactions(transactions.data);
+    });
+  }, []);
 
   async function handleSubmit(event:any){
     event.preventDefault()
     const url = URL+'/api/v1/transaction';
     // console.log(url);
-    const price = name.split(" ").[0];
+    const array = name.split(' ');
+    const price = array[0];
     const response = await axios.post(`${url}`, {
-      price, price,
+      price: price,
       name:name.substring(price.length+1),
       description: description,
       datetime:datetime,
@@ -31,11 +45,24 @@ function App() {
     console.log(result);
   }
 
+  let obj = {
+    "name": "abc",
+    "description": "description",
+    "price": -12,
+    "datetime":"12-1-12"
+    }
+
+    let balance = 0;
+    for(const transaction of transactions){
+      balance = (balance + transaction.price);
+    }
+      
+
   return (
     <>
       <main>
         <h1>
-          Rs 400<span>.00</span>
+          Rs {balance}
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="basic">
@@ -53,9 +80,47 @@ function App() {
               onChange={e => setDescription(e.target.value)}/>
           </div>
           <button type="submit">Add new transaction</button>
+          {/* {transactions.length} */}
         </form>
 
         <div className="transactions">
+
+          {transactions.length > 0 && transactions.map(transaction => {
+            <div>
+              <div className="transaction">
+                <div className="left">
+                  <div className="name">{transaction.name}</div>
+                  <div className="description">{transaction.description}</div>
+                </div>
+
+                <div className="right">
+                  <div className={`price ${transaction.price < 0 ? "red": "green"}`}>
+                    {transaction.price}
+                    </div>
+                  <div className="datetime">{transaction.datetime}</div>
+                </div>
+              </div>
+            </div>
+          })};
+
+
+          <div className="transaction">
+                <div className="left">
+                  <div className="name">{obj.name}</div>
+                  <div className="description">{obj.description}</div>
+                </div>
+
+                <div className="right">
+                  <div className={`price ${obj.price < 0 ? "red" : "green"}`}>
+                    {obj.price}
+                    </div>
+                  <div className="datetime"></div>
+                  <div className="datetime">{obj.datetime}</div>
+                </div>
+              </div>
+
+          
+
           <div className="transaction">
             <div className="left">
               <div className="name">New TV</div>
